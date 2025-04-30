@@ -1,0 +1,78 @@
+// Pin configuration
+const int leftSensor = 2;   // IR sensor left
+const int rightSensor = 3;  // IR sensor right
+
+const int leftMotorForward = 9;
+const int leftMotorBackward = 10;
+const int rightMotorForward = 5;
+const int rightMotorBackward = 6;
+
+void setup() {
+  // Set sensor pins as input
+  pinMode(leftSensor, INPUT);
+  pinMode(rightSensor, INPUT);
+
+  // Set motor pins as output
+  pinMode(leftMotorForward, OUTPUT);
+  pinMode(leftMotorBackward, OUTPUT);
+  pinMode(rightMotorForward, OUTPUT);
+  pinMode(rightMotorBackward, OUTPUT);
+
+  Serial.begin(9600); // for debugging
+}
+
+void loop() {
+  int leftValue = digitalRead(leftSensor);
+  int rightValue = digitalRead(rightSensor);
+
+  Serial.print("Left: "); Serial.print(leftValue);
+  Serial.print(" | Right: "); Serial.println(rightValue);
+
+  // Both sensors on white — go forward
+  if (leftValue == 1 && rightValue == 1) {
+    moveForward();
+  }
+  // Left on black, right on white — turn right
+  else if (leftValue == 0 && rightValue == 1) {
+    turnRight();
+  }
+  // Left on white, right on black — turn left
+  else if (leftValue == 1 && rightValue == 0) {
+    turnLeft();
+  }
+  // Both on black — stop
+  else {
+    stopMotors();
+  }
+
+  delay(10);
+}
+
+// Motor functions
+void moveForward() {
+  digitalWrite(leftMotorForward, HIGH);
+  digitalWrite(leftMotorBackward, LOW);
+  digitalWrite(rightMotorForward, HIGH);
+  digitalWrite(rightMotorBackward, LOW);
+}
+
+void turnRight() {
+  digitalWrite(leftMotorForward, HIGH);
+  digitalWrite(leftMotorBackward, LOW);
+  digitalWrite(rightMotorForward, LOW);
+  digitalWrite(rightMotorBackward, HIGH);
+}
+
+void turnLeft() {
+  digitalWrite(leftMotorForward, LOW);
+  digitalWrite(leftMotorBackward, HIGH);
+  digitalWrite(rightMotorForward, HIGH);
+  digitalWrite(rightMotorBackward, LOW);
+}
+
+void stopMotors() {
+  digitalWrite(leftMotorForward, LOW);
+  digitalWrite(leftMotorBackward, LOW);
+  digitalWrite(rightMotorForward, LOW);
+  digitalWrite(rightMotorBackward, LOW);
+}
