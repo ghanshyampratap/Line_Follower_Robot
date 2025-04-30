@@ -1,0 +1,8 @@
+| Component     | Arduino Pin |
+|---------------|-------------|
+| Left IR Out   | D2          |
+| Right IR Out  | D3          |
+| L298N IN1     | D9          |
+| L298N IN2     | D10         |
+| L298N IN3     | D5          |
+| L298N IN4     | D6          |
